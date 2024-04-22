@@ -15,9 +15,10 @@ public class App {
         ObjectMapper mapper = new ObjectMapper();
         mapper.findAndRegisterModules();
         try{
-            return mapper.readValue(file, Calendar.class);
+            Calendar calendar = mapper.readValue(file, Calendar.class);
+            if(calendar.getWorkingHours() == null || calendar.getPlannedMeeting() == null) return null;
+            return calendar;
         }catch (IOException exception){
-            System.out.println(exception.getMessage());
             return null;
         }
     }
