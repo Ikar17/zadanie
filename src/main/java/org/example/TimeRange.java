@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.time.LocalTime;
 
-public class TimeRange {
+public class TimeRange implements Comparable {
     @JsonProperty("start")
     private LocalTime startTime;
     @JsonProperty("end")
@@ -30,5 +30,15 @@ public class TimeRange {
 
     public void setEndTime(LocalTime endTime) {
         this.endTime = endTime;
+    }
+
+    @Override
+    public int compareTo(Object o) {
+        TimeRange secondTimeRange = (TimeRange) o;
+        int comparison = startTime.compareTo(secondTimeRange.startTime);
+        if(comparison == 0){
+            return endTime.compareTo(secondTimeRange.endTime);
+        }
+        return comparison;
     }
 }

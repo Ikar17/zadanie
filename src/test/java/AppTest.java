@@ -146,8 +146,9 @@ public class AppTest {
 
         Calendar firstCalendar = null;
         Calendar secondCalendar = app.parseCalendarFromJsonFile(file);
+        LocalTime meetingDuration = LocalTime.of(0, 30);
 
-        List<TimeRange> actual = app.getFreeSlots(firstCalendar, secondCalendar);
+        List<TimeRange> actual = app.getFreeSlots(firstCalendar, secondCalendar, meetingDuration);
         assertNull(actual, "Return value should be null");
     }
 
@@ -158,8 +159,9 @@ public class AppTest {
 
         Calendar firstCalendar = null;
         Calendar secondCalendar = null;
+        LocalTime meetingDuration = LocalTime.of(0, 30);
 
-        List<TimeRange> actual = app.getFreeSlots(firstCalendar, secondCalendar);
+        List<TimeRange> actual = app.getFreeSlots(firstCalendar, secondCalendar, meetingDuration);
         assertNull(actual, "Return value should be null");
     }
 
@@ -172,8 +174,9 @@ public class AppTest {
 
         Calendar firstCalendar = app.parseCalendarFromJsonFile(file);
         Calendar secondCalendar = null;
+        LocalTime meetingDuration = LocalTime.of(0, 30);
 
-        List<TimeRange> actual = app.getFreeSlots(firstCalendar, secondCalendar);
+        List<TimeRange> actual = app.getFreeSlots(firstCalendar, secondCalendar, meetingDuration);
         assertNull(actual, "Return value should be null");
     }
 
@@ -186,8 +189,9 @@ public class AppTest {
 
         Calendar firstCalendar = app.parseCalendarFromJsonFile(file);
         Calendar secondCalendar = null;
+        LocalTime meetingDuration = LocalTime.of(0, 30);
 
-        List<TimeRange> actual = app.getFreeSlots(firstCalendar, secondCalendar);
+        List<TimeRange> actual = app.getFreeSlots(firstCalendar, secondCalendar, meetingDuration);
         assertNull(actual, "Return value should be null");
     }
 
@@ -202,8 +206,9 @@ public class AppTest {
 
         Calendar firstCalendar = app.parseCalendarFromJsonFile(firstFile);
         Calendar secondCalendar = app.parseCalendarFromJsonFile(secondFile);
+        LocalTime meetingDuration = LocalTime.of(0, 30);
 
-        List<TimeRange> actual = app.getFreeSlots(firstCalendar, secondCalendar);
+        List<TimeRange> actual = app.getFreeSlots(firstCalendar, secondCalendar, meetingDuration);
         assertNotNull(actual, "Return value shouldn't be null");
 
         TimeRange[] expectedFreeSlots = {
