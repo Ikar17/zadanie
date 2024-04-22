@@ -1,0 +1,6 @@
+{
+    working_hours: {
+        start: "09:00",
+        end: "19:55"
+    }
+}
