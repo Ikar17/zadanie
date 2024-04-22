@@ -5,6 +5,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import java.io.File;
 import java.time.LocalTime;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -95,6 +96,129 @@ public class AppTest {
             assertEquals(LocalTime.parse(expectedMeetingTime[expectedMeetingTimeIndex + 1]), actualMeetingTime.getEndTime(), message);
 
             expectedMeetingTimeIndex += 2;
+        }
+    }
+
+    @Test
+    @DisplayName("Function parseCalendarFromJsonFile when file is correct")
+    public void test6(){
+        String fileName = "src/test/resources/file_test6.txt";
+        File file = new File(fileName);
+        App app = new App();
+
+        Calendar actual = app.parseCalendarFromJsonFile(file);
+
+        assertNotNull(actual, "Return value shouldn't be null");
+        assertNotNull(actual.getWorkingHours(), "Object workingHours shouldn't be null");
+        assertNotNull(actual.getPlannedMeeting(), "Object plannedMeeting shouldn't be null");
+        assertEquals(LocalTime.of(10,0), actual.getWorkingHours().getStartTime(), "Start of working should be 9:00");
+        assertEquals(LocalTime.of(18,30), actual.getWorkingHours().getEndTime(), "End of working should be 19:55");
+
+        String[] expectedMeetingTime = {
+                "10:00", "11:30",
+                "12:30", "14:30",
+                "14:30", "15:00",
+                "16:00", "17:00"
+        };
+
+        int expectedMeetingTimeIndex = 0;
+        String message;
+
+        assertEquals(4, actual.getPlannedMeeting().size(), "Incorrect size of meetings");
+
+        for(TimeRange actualMeetingTime : actual.getPlannedMeeting()){
+            message = String.format("Start of meeting should be %s",expectedMeetingTime[expectedMeetingTimeIndex]);
+            assertEquals(LocalTime.parse(expectedMeetingTime[expectedMeetingTimeIndex]), actualMeetingTime.getStartTime(), message);
+
+            message = String.format("End of meeting should be %s",expectedMeetingTime[expectedMeetingTimeIndex + 1]);
+            assertEquals(LocalTime.parse(expectedMeetingTime[expectedMeetingTimeIndex + 1]), actualMeetingTime.getEndTime(), message);
+
+            expectedMeetingTimeIndex += 2;
+        }
+    }
+
+    @Test
+    @DisplayName("Function getFreeSlots when one of the two providing calendars is null")
+    public void test7(){
+        String fileName = "src/test/resources/file_test5.txt";
+        File file = new File(fileName);
+        App app = new App();
+
+        Calendar firstCalendar = null;
+        Calendar secondCalendar = app.parseCalendarFromJsonFile(file);
+
+        List<TimeRange> actual = app.getFreeSlots(firstCalendar, secondCalendar);
+        assertNull(actual, "Return value should be null");
+    }
+
+    @Test
+    @DisplayName("Function getFreeSlots when one of the two providing calendars is null")
+    public void test8(){
+        App app = new App();
+
+        Calendar firstCalendar = null;
+        Calendar secondCalendar = null;
+
+        List<TimeRange> actual = app.getFreeSlots(firstCalendar, secondCalendar);
+        assertNull(actual, "Return value should be null");
+    }
+
+    @Test
+    @DisplayName("Function getFreeSlots when one of the two providing calendars is null")
+    public void test9(){
+        String fileName = "src/test/resources/file_test5.txt";
+        File file = new File(fileName);
+        App app = new App();
+
+        Calendar firstCalendar = app.parseCalendarFromJsonFile(file);
+        Calendar secondCalendar = null;
+
+        List<TimeRange> actual = app.getFreeSlots(firstCalendar, secondCalendar);
+        assertNull(actual, "Return value should be null");
+    }
+
+    @Test
+    @DisplayName("Function getFreeSlots when one of the two providing calendars is null")
+    public void test10(){
+        String fileName = "src/test/resources/file_test5.txt";
+        File file = new File(fileName);
+        App app = new App();
+
+        Calendar firstCalendar = app.parseCalendarFromJsonFile(file);
+        Calendar secondCalendar = null;
+
+        List<TimeRange> actual = app.getFreeSlots(firstCalendar, secondCalendar);
+        assertNull(actual, "Return value should be null");
+    }
+
+    @Test
+    @DisplayName("Function getFreeSlots when two calendars are correct")
+    public void test11(){
+        String firstFileName = "src/test/resources/file_test5.txt";
+        File firstFile = new File(firstFileName);
+        String secondFileName = "src/test/resources/file_test6.txt";
+        File secondFile = new File(secondFileName);
+        App app = new App();
+
+        Calendar firstCalendar = app.parseCalendarFromJsonFile(firstFile);
+        Calendar secondCalendar = app.parseCalendarFromJsonFile(secondFile);
+
+        List<TimeRange> actual = app.getFreeSlots(firstCalendar, secondCalendar);
+        assertNotNull(actual, "Return value shouldn't be null");
+
+        TimeRange[] expectedFreeSlots = {
+                new TimeRange(LocalTime.of(11,30), LocalTime.of(12,0)),
+                new TimeRange(LocalTime.of(15,0), LocalTime.of(16,0)),
+                new TimeRange(LocalTime.of(18,0), LocalTime.of(18,30))
+        };
+
+        assertEquals(3, actual.size(), "Incorrect size of free slots");
+
+        for(int index = 0; index < 3; ++index){
+            TimeRange actualFreeSlot = actual.get(index);
+            TimeRange expectedFreeSlot = expectedFreeSlots[index];
+            assertEquals(expectedFreeSlot.getStartTime(), actualFreeSlot.getStartTime(), "Incorrect start time of free slot");
+            assertEquals(expectedFreeSlot.getEndTime(), actualFreeSlot.getEndTime(), "Incorrect end time of free slot");
         }
     }
 }
