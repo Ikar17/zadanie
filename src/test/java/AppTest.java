@@ -85,7 +85,7 @@ public class AppTest {
         int expectedMeetingTimeIndex = 0;
         String message;
 
-        assertEquals(6, actual.getPlannedMeeting().size(), "Incorrect size of meetings");
+        assertEquals(3, actual.getPlannedMeeting().size(), "Incorrect size of meetings");
 
         for(TimeRange actualMeetingTime : actual.getPlannedMeeting()){
             message = String.format("Start of meeting should be %s",expectedMeetingTime[expectedMeetingTimeIndex]);

@@ -1,5 +1,5 @@
 {
-    planned_meeting: [
+    "planned_meeting": [
             {
                 start: "09:00",
                 end: "10:30"
