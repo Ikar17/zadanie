@@ -51,7 +51,15 @@ public class App {
     }
 
     public ArrayList<ArrayList<String>> formatToStringArrayList(List<TimeRange> freeSlots){
-        return null;
+        if(freeSlots == null) return null;
+        ArrayList<ArrayList<String>> freeSlotsAsArrayList = new ArrayList<>();
+        for(TimeRange slot : freeSlots){
+            ArrayList<String> slotList = new ArrayList<>();
+            slotList.add(slot.getStartTime().toString());
+            slotList.add(slot.getEndTime().toString());
+            freeSlotsAsArrayList.add(slotList);
+        }
+        return freeSlotsAsArrayList;
     }
 
     private List<TimeRange> mergeAndSortAllMeetings(List<TimeRange> firstCalendarMeetings, List<TimeRange> secondCalendarMeetings){

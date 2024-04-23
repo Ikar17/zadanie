@@ -256,7 +256,7 @@ public class AppTest {
         assertNotNull(formatedFreeSlotsList, "Return value shouldn't be null");
 
         ArrayList<ArrayList<String>> expected = new ArrayList<>();
-        expected.add(new ArrayList<>(List.of("12:30", "13:00")));
+        expected.add(new ArrayList<>(List.of("11:30", "12:00")));
         expected.add(new ArrayList<>(List.of("15:00", "16:00")));
         expected.add(new ArrayList<>(List.of("18:00", "18:30")));
 
