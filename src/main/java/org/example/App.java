@@ -17,9 +17,9 @@ public class App {
         System.out.println("Cześć. Oto prosta aplikacja do szukania wolnych okien czasowych na podstawie kalendarzy dwóch osób\n");
 
         Scanner input = new Scanner(System.in);
-        System.out.println("Podaj ścieżkę do pliku z pierwszym kalendarzem: ");
+        System.out.println("Podaj ścieżkę do pliku z pierwszym kalendarzem (np. src/main/resources/file1.txt): ");
         String firstCalendarFilename = input.nextLine();
-        System.out.println("Podaj ścieżkę do pliku z drugim kalendarzem: ");
+        System.out.println("Podaj ścieżkę do pliku z drugim kalendarzem (np. src/main/resources/file2.txt): ");
         String secondCalendarFilename = input.nextLine();
         System.out.println("Podaj oczekiwany czas trwania spotkania w formacie HH:MM: ");
         String meetingDurationString = input.nextLine();
