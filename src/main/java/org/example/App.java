@@ -73,6 +73,9 @@ public class App {
         return mergedList;
     }
 
+    /**
+     * The method returns the start time of the person who starts work later
+     */
     private LocalTime findPotentialFirstFreeSlotStartTime(Calendar firstCalendar, Calendar secondCalendar){
         LocalTime firstCalendarStartWorkTime = firstCalendar.getWorkingHours().getStartTime();
         LocalTime secondCalendarStartWorkTime = secondCalendar.getWorkingHours().getStartTime();
@@ -83,6 +86,9 @@ public class App {
         }
     }
 
+    /**
+     * The method returns the end time of the person who end work earlier
+     */
     private LocalTime findPotentialLastFreeSlotEndTime(Calendar firstCalendar, Calendar secondCalendar){
         LocalTime firstCalendarEndWorkTime = firstCalendar.getWorkingHours().getEndTime();
         LocalTime secondCalendarEndWorkTime = secondCalendar.getWorkingHours().getEndTime();
