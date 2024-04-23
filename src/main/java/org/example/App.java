@@ -6,13 +6,49 @@ import java.io.File;
 import java.io.IOException;
 import java.time.Duration;
 import java.time.LocalTime;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Scanner;
 
 public class App {
     public static void main(String[] args) {
-        System.out.println("Hello world!");
+        System.out.println("Cześć. Oto prosta aplikacja do szukania wolnych okien czasowych na podstawie kalendarzy dwóch osób\n");
+
+        Scanner input = new Scanner(System.in);
+        System.out.println("Podaj ścieżkę do pliku z pierwszym kalendarzem: ");
+        String firstCalendarFilename = input.nextLine();
+        System.out.println("Podaj ścieżkę do pliku z drugim kalendarzem: ");
+        String secondCalendarFilename = input.nextLine();
+        System.out.println("Podaj oczekiwany czas trwania spotkania w formacie HH:MM: ");
+        String meetingDurationString = input.nextLine();
+        input.close();
+
+        File firstCalendarFile = new File(firstCalendarFilename);
+        if(!firstCalendarFile.exists()){
+            System.out.printf("Nie znaleziono pliku o ścieżce: %s\n",firstCalendarFilename);
+        }
+        File secondCalendarFile = new File(secondCalendarFilename);
+        if(!secondCalendarFile.exists()){
+            System.out.printf("Nie znaleziono pliku o ścieżce: %s\n",secondCalendarFilename);
+        }
+
+        try{
+            LocalTime meetingDuration = LocalTime.parse(meetingDurationString);
+
+            App app = new App();
+
+            Calendar firstCalendar = app.parseCalendarFromJsonFile(firstCalendarFile);
+            Calendar secondCalendar = app.parseCalendarFromJsonFile(secondCalendarFile);
+            ArrayList<ArrayList<String>> freeSlots = app.formatToStringArrayList(app.getFreeSlots(firstCalendar, secondCalendar, meetingDuration));
+
+            System.out.println("\nOto możliwe terminy w których można umówić spotkanie: ");
+            if(freeSlots == null || freeSlots.size() == 0) System.out.println("Brak");
+            else System.out.println(freeSlots);
+        }catch(DateTimeParseException e){
+            System.out.println("Niepoprawny format długości spotkania. Powinien być podany jako HH:MM (np. 00:30)");
+        }
     }
 
     public Calendar parseCalendarFromJsonFile(File file){
