@@ -5,6 +5,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import java.io.File;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -226,4 +227,49 @@ public class AppTest {
             assertEquals(expectedFreeSlot.getEndTime(), actualFreeSlot.getEndTime(), "Incorrect end time of free slot");
         }
     }
+
+    @Test
+    @DisplayName("Function formatToStringArrayList when parametr is null")
+    public void test12(){
+        App app = new App();
+        List<TimeRange> freeSlotsList = null;
+        ArrayList<ArrayList<String>> formatedFreeSlotsList = app.formatToStringArrayList(freeSlotsList);
+        assertNull(formatedFreeSlotsList, "Return value should be null");
+    }
+
+    @Test
+    @DisplayName("Function formatToStringArrayList when providing list is correct")
+    public void test13(){
+        String firstFileName = "src/test/resources/file_test5.txt";
+        File firstFile = new File(firstFileName);
+        String secondFileName = "src/test/resources/file_test6.txt";
+        File secondFile = new File(secondFileName);
+        App app = new App();
+
+        Calendar firstCalendar = app.parseCalendarFromJsonFile(firstFile);
+        Calendar secondCalendar = app.parseCalendarFromJsonFile(secondFile);
+        LocalTime meetingDuration = LocalTime.of(0, 30);
+
+        List<TimeRange> freeSlotsList = app.getFreeSlots(firstCalendar, secondCalendar, meetingDuration);
+
+        ArrayList<ArrayList<String>> formatedFreeSlotsList = app.formatToStringArrayList(freeSlotsList);
+        assertNotNull(formatedFreeSlotsList, "Return value shouldn't be null");
+
+        ArrayList<ArrayList<String>> expected = new ArrayList<>();
+        expected.add(new ArrayList<>(List.of("12:30", "13:00")));
+        expected.add(new ArrayList<>(List.of("15:00", "16:00")));
+        expected.add(new ArrayList<>(List.of("18:00", "18:30")));
+
+        assertEquals(3, formatedFreeSlotsList.size(), "List should contain 3 slots");
+
+        for(int index = 0; index < 3; ++index){
+            ArrayList<String> actualSlot = formatedFreeSlotsList.get(index);
+            ArrayList<String> expectedSlot = expected.get(index);
+
+            assertNotNull(actualSlot, "Return slot shouldn't be null");
+            assertEquals(actualSlot.get(0), expectedSlot.get(0));
+            assertEquals(actualSlot.get(1), expectedSlot.get(1));
+        }
+    }
+
 }

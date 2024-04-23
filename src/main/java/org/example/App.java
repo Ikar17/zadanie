@@ -47,8 +47,11 @@ public class App {
         if(isFreeSlot(potentialFreeSlotStartTime, potentialFreeSlotEndTime, meetingDuration)){
             freeSlots.add(new TimeRange(potentialFreeSlotStartTime, potentialFreeSlotEndTime));
         }
-
         return freeSlots;
+    }
+
+    public ArrayList<ArrayList<String>> formatToStringArrayList(List<TimeRange> freeSlots){
+        return null;
     }
 
     private List<TimeRange> mergeAndSortAllMeetings(List<TimeRange> firstCalendarMeetings, List<TimeRange> secondCalendarMeetings){
